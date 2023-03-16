@@ -230,7 +230,6 @@ func (connection *SubsonicConnection) CreatePlaylist(name string) (*SubsonicResp
 }
 
 func (connection *SubsonicConnection) getResponse(caller, requestUrl string) (*SubsonicResponse, error) {
-	connection.Logger.Printf("%s %s", caller, requestUrl)
 	res, err := http.Get(requestUrl)
 
 	if err != nil {
