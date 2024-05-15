@@ -6,6 +6,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/url"
 	"os"
 	"runtime"
 
@@ -37,18 +38,45 @@ func readConfig() {
 	}
 }
 
+// parseConfig takes the first non-flag arguments from flags and parses it
+// into the viper config.
+func parseConfig() {
+	if u, e := url.Parse(flag.Arg(0)); e == nil {
+		// If credentials were provided
+		if len(u.User.Username()) > 0 {
+			viper.Set("auth.username", u.User.Username())
+			// If the password wasn't provided, the program will fail as normal
+			if p, s := u.User.Password(); s {
+				viper.Set("auth.password", p)
+			}
+		}
+		// Blank out the credentials so we can use the URL formatting
+		u.User = nil
+		viper.Set("server.host", u.String())
+	} else {
+		fmt.Printf("Invalid server format; must be a valid URL: http[s]://[user:pass@]server:port")
+		fmt.Printf("USAGE: %s <args> [http[s]://[user:pass@]server:port]\n", os.Args[0])
+		flag.Usage()
+		os.Exit(1)
+	}
+}
+
 func main() {
 	help := flag.Bool("help", false, "Print usage")
 	enableMpris := flag.Bool("mpris", false, "Enable MPRIS2")
 	list := flag.Bool("list", false, "list server data")
 	flag.Parse()
 	if *help {
-		fmt.Printf("USAGE: %s <args>\n", os.Args[0])
+		fmt.Printf("USAGE: %s <args> [[user:pass@]server:port]\n", os.Args[0])
 		flag.Usage()
 		os.Exit(0)
 	}
 
-	readConfig()
+	if len(flag.Args()) > 0 {
+		parseConfig()
+	} else {
+		readConfig()
+	}
 
 	logger := logger.Init()
 
