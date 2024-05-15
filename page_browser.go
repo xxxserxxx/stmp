@@ -98,6 +98,9 @@ func (ui *Ui) createBrowserPage(indexes *[]subsonic.SubsonicIndex) *BrowserPage 
 		}
 
 		switch event.Rune() {
+		case 'a':
+			browserPage.handleAddArtistToQueue()
+			return nil
 		case '/':
 			browserPage.showSearchField(true)
 			browserPage.search()
@@ -233,6 +236,23 @@ func (b *BrowserPage) UpdateStars() {
 	if b.currentDirectory != nil {
 		b.handleEntitySelected(b.currentDirectory.Id)
 	}
+}
+
+func (b *BrowserPage) handleAddArtistToQueue() {
+	currentIndex := b.artistList.GetCurrentItem()
+	if currentIndex < 0 {
+		return
+	}
+
+	for _, entity := range b.currentDirectory.Entities {
+		if entity.IsDirectory {
+			b.addDirectoryToQueue(&entity)
+		} else {
+			b.ui.addSongToQueue(&entity)
+		}
+	}
+
+	b.ui.queuePage.UpdateQueue()
 }
 
 func (b *BrowserPage) handleAddEntityToQueue() {

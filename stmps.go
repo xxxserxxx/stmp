@@ -65,6 +65,7 @@ func main() {
 		fmt.Printf("Error fetching indexes from server: %s\n", err)
 		os.Exit(1)
 	}
+	// TODO (B) loading playlists can take a long time on e.g. gonic if there are a lot of them; can it be done in the background?
 	playlistResponse, err := connection.GetPlaylists()
 	if err != nil {
 		fmt.Printf("Error fetching indexes from server: %s\n", err)

@@ -75,6 +75,7 @@ func (ui *Ui) handlePageInput(event *tcell.EventKey) *tcell.EventKey {
 		}
 		return nil
 
+	// TODO (A) volume up with '+'; trivial, but needs to be a different patch so adding note
 	case '=':
 		// volume+
 		if err := ui.player.AdjustVolume(5); err != nil {

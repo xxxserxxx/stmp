@@ -10,14 +10,18 @@ r     add 50 random songs to queue
 `
 
 const helpPageBrowser = `
-ENTER play song (clears current queue)
-a     add album or song to queue
-A     add song to playlist
-y     toggle star on song/album
-R     refresh the list
-/     Search artists
-n     Continue search forward
-N     Continue search backwards
+artist tab
+  R     refresh the list
+  /     Search artists
+  a     Add all artist songs to queue
+  n     Continue search forward
+  N     Continue search backwards
+song tab
+  ENTER play song (clears current queue)
+  a     add album or song to queue
+  A     add song to playlist
+  y     toggle star on song/album
+  R     refresh the list
 ESC   Close search
 `
 
