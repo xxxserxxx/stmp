@@ -140,7 +140,9 @@ func (ui *Ui) createBrowserPage(indexes *[]subsonic.SubsonicIndex) *BrowserPage 
 	})
 
 	browserPage.artistList.SetChangedFunc(func(index int, _ string, _ string, _ rune) {
-		browserPage.handleEntitySelected(browserPage.artistIdList[index])
+		if index < len(browserPage.artistIdList) {
+			browserPage.handleEntitySelected(browserPage.artistIdList[index])
+		}
 	})
 
 	// "add to playlist" modal
