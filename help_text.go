@@ -1,12 +1,12 @@
 package main
 
 const helpPlayback = `
-p     play/pause
-P     stop
->     next song
--/=   volume down/volume up
-,/.   seek -10/+10 seconds
-r     add 50 random songs to queue
+p      play/pause
+P      stop
+>      next song
+-/=(+) volume down/volume up
+,/.    seek -10/+10 seconds
+r      add 50 random songs to queue
 `
 
 const helpPageBrowser = `
