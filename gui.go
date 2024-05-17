@@ -122,7 +122,13 @@ func InitGui(indexes *[]subsonic.SubsonicIndex,
 	// help box modal
 	ui.helpModal = makeModal(ui.helpWidget.Root, 80, 30)
 	ui.helpWidget.Root.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		ui.CloseHelp()
+		// Belts and suspenders. After the dialog is shown, this function will
+		// _always_ be called. Therefore, check to ensure it's actually visible
+		// before triggering on events. Also, don't close on every key, but only
+		// ESC, like the help text says.
+		if ui.helpWidget.visible && (event.Key() == tcell.KeyEscape) {
+			ui.CloseHelp()
+		}
 		return event
 	})
 
@@ -188,10 +194,13 @@ func (ui *Ui) ShowHelp() {
 	ui.helpWidget.RenderHelp(activePage)
 
 	ui.pages.ShowPage(PageHelpBox)
+	ui.pages.SendToFront(PageHelpBox)
 	ui.app.SetFocus(ui.helpModal)
+	ui.helpWidget.visible = true
 }
 
 func (ui *Ui) CloseHelp() {
+	ui.helpWidget.visible = false
 	ui.pages.HidePage(PageHelpBox)
 }
 

@@ -13,6 +13,9 @@ type HelpWidget struct {
 	helpBook                *tview.Flex
 	leftColumn, rightColumn *tview.TextView
 
+	// visible reflects whether the modal is shown
+	visible bool
+
 	// external references
 	ui *Ui
 }
@@ -32,16 +35,9 @@ func (ui *Ui) createHelpWidget() (m *HelpWidget) {
 	m.helpBook = tview.NewFlex().
 		SetDirection(tview.FlexColumn)
 
-	// button at the bottom
-	closeButton := tview.NewButton("Close")
-	closeButton.SetSelectedFunc(func() {
-		ui.CloseHelp()
-	})
-
 	m.Root = tview.NewFlex().
 		SetDirection(tview.FlexRow).
-		AddItem(m.helpBook, 0, 1, false).
-		AddItem(closeButton, 1, 0, true)
+		AddItem(m.helpBook, 0, 1, false)
 
 	m.Root.Box.SetBorder(true).SetTitle(" Help ")
 
