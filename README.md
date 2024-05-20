@@ -2,6 +2,12 @@
 
 A terminal client for *sonic music servers. Inspired by ncmpcpp and musickube.
 
+## This fork contains all my PRs
+
+I'm now working with [@spezifisch's](https://github.com/spezifisch/stmps) fork.
+I've submitted a number of patches; this fork contains all of those, and I plan
+to keep this in sync with any of @spezifisch's changes.
+
 ## Features
 
 * browse by folder
